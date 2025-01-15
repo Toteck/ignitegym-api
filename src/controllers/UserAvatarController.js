@@ -1,5 +1,6 @@
 const knex = require("../database");
 const DiskStorage = require("../providers/DiskStorage");
+const AppError = require("../utils/AppError");
 
 class UserAvatarController {
   async update(request, response) {
@@ -11,7 +12,10 @@ class UserAvatarController {
     const user = await knex("users").where({ id: user_id }).first();
 
     if (!user) {
-      throw new AppError("Somente usuários autenticados podem mudar o avatar", 401);
+      throw new AppError(
+        "Somente usuários autenticados podem mudar o avatar",
+        401
+      );
     }
 
     if (user.avatar) {
